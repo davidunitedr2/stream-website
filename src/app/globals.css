@@ -1,26 +1,168 @@
 @import "tailwindcss";
 
+@theme {
+  /* ── Stream brand: blue anchor + lime accent ────────────────── */
+  /* PRIMARY blue (the blue in the logo — official vector value, PMS 300C) */
+  --color-stream-blue: #005cb9;
+  --color-stream-blue-100: #e6f0fa;
+  --color-stream-blue-200: #c2dcf2;
+  --color-stream-blue-500: #005cb9;
+  --color-stream-blue-bright: #20a8e0; /* bright cyan: links/hover, gradient stop */
+  --color-stream-blue-900: #003a78;    /* deep blue: gradient shadow / dark bands */
+
+  /* ACCENT lime (the STREAM wordmark) — use sparingly */
+  --color-stream-lime: #90c010;
+  --color-stream-lime-bright: #a6d61a;
+
+  /* neutrals + surfaces */
+  --color-stream-ink: #1b2430;
+  --color-stream-grey: #7b868c;
+  --color-stream-grey-700: #3d4750;
+  --color-stream-grey-300: #d4d9db;
+  --color-stream-paper: #f7f9fa;
+  --color-stream-white: #ffffff;
+
+  /* type */
+  --font-display: var(--font-archivo), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground: #1b2430;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reduce orphans on long prose without touching headings (which use balance). */
+p {
+  text-wrap: pretty;
+}
+
+/* Placeholders need the same 4.5:1 as body text, not the muted-grey default. */
+input::placeholder,
+textarea::placeholder {
+  color: #5e6873;
+  opacity: 1;
+}
+
+/* One consistent keyboard-focus ring across every interactive element. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-stream-blue-bright);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── component utilities ────────────────────────────────────── */
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+}
+
+@utility heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+/* signature diagonal blue gradient band */
+@utility brand-gradient {
+  background-image: linear-gradient(
+    135deg,
+    var(--color-stream-blue-900) 0%,
+    var(--color-stream-blue) 45%,
+    var(--color-stream-blue-bright) 100%
+  );
+}
+
+/* ── motion ─────────────────────────────────────────────────────
+   The `.motion` class is added to <html> by a tiny pre-paint script
+   ONLY when JS runs and the user hasn't asked for reduced motion.
+   So the default (no JS / headless / reduced-motion) is fully visible
+   content — animation is a pure enhancement, never a visibility gate. */
+:root {
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Scroll reveals: hidden only when motion is on AND not yet in view. */
+.motion .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s var(--ease-out-quint),
+    transform 0.7s var(--ease-out-quint);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.motion .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero load choreography (above the fold, runs on paint). */
+.motion .rise {
+  animation: rise 0.85s both var(--ease-out-quint);
+  animation-delay: var(--rise-delay, 0ms);
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Network graphic: spokes draw + nodes pop when their section reveals. */
+.net-spoke {
+  stroke-dasharray: var(--spoke-len, 320);
+}
+.motion .reveal .net-spoke {
+  stroke-dashoffset: var(--spoke-len, 320);
+}
+.motion .reveal.is-in .net-spoke {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.9s var(--ease-out-expo) 0.15s;
+}
+/* Nodes use transform for centering, so animate opacity only. */
+.motion .reveal .net-node {
+  opacity: 0;
+}
+.motion .reveal.is-in .net-node {
+  opacity: 1;
+  transition: opacity 0.5s var(--ease-out-quint) var(--node-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion .reveal,
+  .motion .rise,
+  .motion .reveal .net-spoke,
+  .motion .reveal .net-node {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
+    stroke-dashoffset: 0;
+  }
 }
