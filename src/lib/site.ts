@@ -30,7 +30,7 @@ export const site = {
     notify: "notify@thestream.com", // assignments, pickup notices
     invoices: "ap-ar@thestream.com", // AP/AR
     arbitration: "arbitrations@thestream.com", // arbitration inquiries
-    floorplans: "floorplans@memphisautoauction.com", // floor plans (sister entity)
+    floorplans: "floorplans@uaxmemphis.com", // floor plans (sister entity)
   },
 
   external: {
