@@ -77,17 +77,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Pitch ────────────────────────────────────────────── */}
-      <section className="bg-white">
-        <Reveal as="div" className="mx-auto max-w-4xl px-4 py-20 sm:px-6 sm:py-24">
-          <p className="heading text-3xl text-stream-ink sm:text-4xl lg:text-[2.75rem]">
-            One consignment, listed everywhere buyers already are. Stream is an in-lane and online
-            brand built to move the best vehicles to the best buyers,{" "}
-            <span className="text-stream-blue">anywhere and any time.</span>
-          </p>
-        </Reveal>
-      </section>
-
       {/* ── Where Stream sells (the network) ─────────────────── */}
       <section className="relative overflow-hidden bg-stream-paper">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 sm:py-24 lg:grid-cols-2">
