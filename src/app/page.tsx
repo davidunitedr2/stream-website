@@ -212,12 +212,14 @@ export default function Home() {
                 Fast, accurate title work handled in-house, so titles never become the bottleneck.
               </p>
             </div>
-            <Link
-              href="/title-services"
+            <a
+              href={site.external.titleServices}
+              target="_blank"
+              rel="noopener noreferrer"
               className="shrink-0 font-display text-sm font-bold uppercase tracking-wide text-stream-blue hover:text-stream-blue-bright"
             >
               Explore Title Services →
-            </Link>
+            </a>
           </Reveal>
         </div>
       </section>

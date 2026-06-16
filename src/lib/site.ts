@@ -115,24 +115,6 @@ export const team: Person[] = [
   { name: "Luke Jackemeyer", title: "Senior Auction Operations" },
 ];
 
-// Stream Title Services (separate entity, streamtitleservices.com).
-export const titleServices = {
-  pitch: "Stream Title Services streamlines your title process so you can focus on what you do best.",
-  blurb: "A concierge title service, custom-tailored to your titling needs and handled by a team that has spent years in the title processes of every state.",
-  services: [
-    "Repo affidavits",
-    "Title flips in any state",
-    "Duplicate titles",
-    "State-specific title requirements",
-  ],
-  how: [
-    { h: "You submit", p: "Send vehicle information in a single file." },
-    { h: "SIMN generates", p: "Our system produces every document the state requires." },
-    { h: "We file", p: "Title paperwork is submitted on your behalf." },
-    { h: "You receive", p: "The completed title is returned to you, fast." },
-  ],
-} as const;
-
 export const causes = [
   {
     name: "Memphis Athletic Ministries",
