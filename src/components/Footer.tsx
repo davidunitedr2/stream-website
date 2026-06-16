@@ -17,7 +17,9 @@ export function Footer() {
             className="h-9 w-auto"
           />
           <p className="mt-4 max-w-xs text-sm leading-relaxed">
-            {site.tagline} Stream vehicles are listed in-lane and online at top auctions nationwide.
+            {site.tagline}
+            <br />
+            Stream vehicles are listed every day in-lane and online at top auctions nationwide.
           </p>
         </div>
 
