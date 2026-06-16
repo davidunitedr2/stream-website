@@ -94,8 +94,35 @@ export function RunListTable({ vehicles }: { vehicles: Vehicle[] }) {
         Showing <span className="font-semibold text-stream-ink">{rows.length}</span> of {vehicles.length} vehicles
       </p>
 
-      {/* table */}
-      <div className="mt-3 overflow-x-auto rounded-lg border border-stream-grey-300">
+      {/* mobile: sort control (the table headers that sort on desktop are hidden below md) */}
+      <div className="mt-3 flex items-center gap-2 md:hidden">
+        <label htmlFor="rl-sort" className="font-display text-xs font-bold uppercase tracking-widest text-stream-grey-700">
+          Sort
+        </label>
+        <select
+          id="rl-sort"
+          value={sortKey}
+          onChange={(e) => setSortKey(e.target.value as SortKey)}
+          className="flex-1 rounded-md border border-stream-grey-300 bg-white px-3 py-2 text-sm text-stream-ink focus:border-stream-blue"
+        >
+          {COLUMNS.map((c) => (
+            <option key={c.key} value={c.key}>
+              {c.key === "idx" ? "Run order" : c.label}
+            </option>
+          ))}
+        </select>
+        <button
+          type="button"
+          onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
+          aria-label={`Sort ${sortDir === "asc" ? "ascending" : "descending"}, tap to reverse`}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-stream-grey-300 bg-white text-stream-blue"
+        >
+          {sortDir === "asc" ? "▲" : "▼"}
+        </button>
+      </div>
+
+      {/* desktop: table (md+) */}
+      <div className="mt-3 hidden overflow-x-auto rounded-lg border border-stream-grey-300 md:block">
         <table className="w-full min-w-[760px] border-collapse text-sm">
           <thead>
             <tr className="bg-stream-blue text-white">
@@ -147,16 +174,47 @@ export function RunListTable({ vehicles }: { vehicles: Vehicle[] }) {
                 </td>
               </tr>
             ))}
-            {rows.length === 0 && (
-              <tr>
-                <td colSpan={COLUMNS.length} className="px-3 py-10 text-center text-stream-grey-700">
-                  No vehicles match your filters.
-                </td>
-              </tr>
-            )}
           </tbody>
         </table>
       </div>
+
+      {/* mobile: card list (below md) */}
+      <ul className="mt-3 space-y-3 md:hidden">
+        {rows.map((v) => (
+          <li
+            key={`${v.vin}-${v.idx}`}
+            className="rounded-lg border border-stream-grey-300 bg-white p-4"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <p className="font-display text-base font-bold text-stream-ink">
+                {v.year ?? "—"} {v.make}{" "}
+                <span className="font-medium text-stream-grey-700">{v.model}</span>
+              </p>
+              <StatusPill status={v.status} />
+            </div>
+            <p className="mt-1 font-mono text-xs text-stream-grey-700">{v.vin}</p>
+            <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-stream-grey-700">Mileage</dt>
+                <dd className="tabular-nums text-stream-ink">{v.mileageText}</dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-stream-grey-700">Sale date</dt>
+                <dd className="tabular-nums text-stream-ink">{v.date || "—"}</dd>
+              </div>
+            </dl>
+            <div className="mt-3">
+              <PlatformTag vehicle={v} />
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      {rows.length === 0 && (
+        <p className="mt-3 rounded-lg border border-stream-grey-300 px-3 py-10 text-center text-stream-grey-700">
+          No vehicles match your filters.
+        </p>
+      )}
     </div>
   );
 }
