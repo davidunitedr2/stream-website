@@ -34,7 +34,7 @@ export const site = {
   },
 
   external: {
-    titleServices: "http://www.streamtitleservices.com",
+    titleServices: "https://www.streamtitleservices.com",
     careers:
       "https://secure7.saashr.com/ta/6206255.careers?CareersSearch=&lang=en-US",
     runListEmbed:
@@ -45,7 +45,7 @@ export const site = {
 export const nav = [
   { label: "Home", href: "/" },
   { label: "Run List", href: "/run-list" },
-  { label: "Title Services", href: "/title-services" },
+  { label: "Title Services", href: site.external.titleServices, external: true },
   { label: "Meet the Team", href: "/team" },
   { label: "Careers", href: site.external.careers, external: true },
 ] as const;
